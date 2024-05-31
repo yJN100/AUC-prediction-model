@@ -165,8 +165,8 @@ def testModel(model, testloader):
 
 def getWideDeepModel(linear_inputs, dnn_inputs, y_train, linear_epochs=400, dnn_epochs=600, combined_epochs=800):
     linear_model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(linear_inputs.shape[1],)),  # 输入层，输入特征数量为 X.shape[1]
-        tf.keras.layers.Dense(1, activation='linear')  # 线性层，输出维度为 1，线性激活函数
+        tf.keras.layers.Input(shape=(linear_inputs.shape[1],)), 
+        tf.keras.layers.Dense(1, activation='linear')
     ])
     # linear_model.compile('adagrad', 'mse')
     linear_model.compile(optimizer='adam', loss='mean_squared_error')
@@ -176,7 +176,7 @@ def getWideDeepModel(linear_inputs, dnn_inputs, y_train, linear_epochs=400, dnn_
         tf.keras.layers.Dense(units=32, activation='relu', kernel_regularizer=l2(0.01)),
         tf.keras.layers.Dropout(0.5),
         # tf.keras.layers.Dense(units=32, activation='relu'),
-        tf.keras.layers.Dense(units=1)  # 输出层，回归问题通常使用线性激活函数
+        tf.keras.layers.Dense(units=1)
     ])
     dnn_model.compile('rmsprop', 'mse')
     dnn_model.fit(dnn_inputs, y_train, epochs=dnn_epochs, batch_size=32)   # loss=0.0135
