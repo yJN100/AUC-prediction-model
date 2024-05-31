@@ -46,9 +46,7 @@ class CustomMetric(Metric):
         return r2
 
 def calMetrics(real, pred):
-    # 计算均方根误差 (RMSE)
     rmse = np.sqrt(mean_squared_error(real, pred))
-    # 计算决定系数 (R²)
     r2 = r2_score(real, pred)
     mae = np.mean(np.abs(real - pred))
     percentage_errors = ((real - pred) / real) * 100
@@ -104,7 +102,6 @@ class Transformer(torch.nn.Module):
         
         return self.fc(feature_1), 1
 
-# 模型训练
 def trainModel(model, optimizer, epochs, trainloader):
     for epoch in range(epochs):
         model.train()  ## Model is in train mode (look at pytorch library to see meaning)
@@ -128,7 +125,7 @@ def trainModel(model, optimizer, epochs, trainloader):
             total_loss += loss.data
         print(str(epoch) + ': ' +'-----------------RMSE: ' + str(np.sqrt(loss.data)))
     # return model
-# 模型验证
+
 def testModel(model, testloader):
     total_loss = 0
     model.eval()
