@@ -47,9 +47,7 @@ class CustomMetric(Metric):
         return r2
 
 def calMetrics(real, pred):
-    # 计算均方根误差 (RMSE)
     rmse = np.sqrt(mean_squared_error(real, pred))
-    # 计算决定系数 (R²)
     r2 = r2_score(real, pred)
     mae = np.mean(np.abs(real - pred))
     percentage_errors = ((real - pred) / real) * 100
@@ -105,7 +103,6 @@ class Transformer(torch.nn.Module):
         
         return self.fc(feature_1), 1
 
-# 模型训练
 def trainModel(model, optimizer, epochs, trainloader):
     for epoch in range(epochs):
         model.train()  ## Model is in train mode (look at pytorch library to see meaning)
@@ -129,7 +126,7 @@ def trainModel(model, optimizer, epochs, trainloader):
             total_loss += loss.data
         print(str(epoch) + ': ' +'-----------------RMSE: ' + str(np.sqrt(loss.data)))
     # return model
-# 模型验证
+
 def testModel(model, testloader):
     total_loss = 0
     model.eval()
@@ -184,19 +181,18 @@ def getWideDeepModel(linear_inputs, dnn_inputs, y_train, linear_epochs=400, dnn_
     combined_model.fit([linear_inputs, dnn_inputs], y_train, epochs=combined_epochs, batch_size=64)
     return combined_model
 
-# %% 读取数据
+# %% read data
 df = pd.read_excel(r'df_three.xlsx')
 cols = df.columns.values
 
-# %% 数据分割
+# %% split data
 X = df.drop('AUC', axis=1)
 y = df['AUC']
 # 8:2
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=30)
 
-# %% 模型
+# %% model
 #### GBM
-# 模型参数配置
 other_params = other_params = {'n_estimators': 100,
  'learning_rate': 0.09,
  'max_depth': 3,
@@ -335,7 +331,6 @@ catCols = ['daily_dose', 'C4h>C1.5h', 'C9h>C1.5h', 'C9h>C4h']
 conCols = ['C1.5h', 'C4h', 'C9h', 'ALT', 'AST', 'cr']
 X_train_cat = X_train[catCols]
 X_test_cat = X_test[catCols]
-# deep输入，连续列
 X_train_con = X_train[conCols]
 X_test_con = X_test[conCols]
 best_com_epochs = 600
