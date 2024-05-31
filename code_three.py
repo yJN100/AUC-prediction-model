@@ -191,7 +191,7 @@ y = df['AUC']
 # 8:2
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=30)
 
-# %% model
+# %% Model
 #### GBM
 other_params = other_params = {'n_estimators': 100,
  'learning_rate': 0.09,
